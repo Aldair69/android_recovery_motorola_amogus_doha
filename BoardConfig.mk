@@ -9,6 +9,7 @@ DEVICE_PATH := device/motorola/amogus_doha
 
 # For building with minimal manifest
 ALLOW_MISSING_DEPENDENCIES := true
+BUILD_BROKEN_ELF_PREBUILT_PRODUCT_COPY_FILES := true
 
 # A/B
 AB_OTA_UPDATER := true
@@ -66,6 +67,12 @@ BOARD_PREBUILT_DTBOIMAGE := $(DEVICE_PATH)/prebuilt/dtbo.img
 BOARD_KERNEL_SEPARATED_DTBO := 
 endif
 
+# This is just in case the touch doesn't work
+## Modules
+  BOARD_VENDOR_KERNEL_MODULES := \
+      $(wildcard device/motorola/amogus-kernel/modules/*.ko)
+endif
+
 # Partitions
 BOARD_FLASH_BLOCK_SIZE := 262144 # (BOARD_KERNEL_PAGESIZE * 64)
 BOARD_BOOTIMAGE_PARTITION_SIZE := 67108864
@@ -83,9 +90,10 @@ TARGET_BOARD_PLATFORM := trinket
 TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
 TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
+TARGET_RECOVERY_UI_MARGIN_HEIGHT := 80
 
-# Security patch level
-VENDOR_SECURITY_PATCH := 2021-08-01
+# Battery
+TW_USE_LEGACY_BATTERY_SERVICES := true
 
 # Verified Boot
 BOARD_AVB_ENABLE := true
